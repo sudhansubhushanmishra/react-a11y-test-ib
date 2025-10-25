@@ -11,50 +11,69 @@ const App = () => {
       const sum = add(input);
       setResult(sum);
       setError(null);
-    } catch (e) {
-      setError(e.message);
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : "An error occurred");
       setResult(null);
     }
   };
 
   return (
-    <div style={{ padding: "20px", backgroundColor: "#fff", color: "#aaa" }}>
-      <img
-        src="https://images.unsplash.com/photo-1594352161389-11756265d1b5?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        width={600}
-        height={400}
-      />
+    <main style={{ padding: "20px", backgroundColor: "#fff", color: "#333" }}>
+      <header>
+        <img
+          src="https://images.unsplash.com/photo-1594352161389-11756265d1b5?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          width={600}
+          height={400}
+          alt="A calculator, a pen, and a notebook on a wooden table."
+        />
+        <h1>String Calculator</h1>
+      </header>
 
-      <h2>String Calculator</h2>
+      <section>
+        <label
+          htmlFor="numberInput"
+          style={{ fontSize: "20px", display: "block", margin: "10px 0" }}
+        >
+          Enter numbers
+        </label>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <textarea
+            id="numberInput"
+            style={{ margin: "10px 0", color: "#333", marginRight: "10px" }}
+            placeholder="e.g., 1,2,3"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+          />
 
-      <h1 style={{ fontSize: "20px" }}>Enter numbers</h1>
+          <button
+            onClick={handleCalculate}
+            style={{
+              padding: "10px",
+              backgroundColor: "#005f8c",
+              color: "#fff",
+              border: "none",
+            }}
+          >
+            Calculate
+          </button>
+        </div>
 
-      <textarea
-        style={{ margin: "10px 0", color: "#aaa" }}
-        placeholder="Enter numbers"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-      />
+        {result !== null && (
+          <p role="alert" style={{ color: "green" }}>
+            Result: {result}
+          </p>
+        )}
+        {error && (
+          <p role="alert" style={{ color: "red" }}>
+            Error: {error}
+          </p>
+        )}
+      </section>
 
-      <div
-        onClick={handleCalculate}
-        style={{
-          padding: "10px",
-          backgroundColor: "#008cba",
-          color: "#fff",
-          border: "none",
-        }}
-      >
-        Calculate
-      </div>
-
-      {result !== null && <p style={{ color: "green" }}>Result: {result}</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
-
-      <div role="alert">
+      <footer>
         <p>Make sure you enter numbers correctly!</p>
-      </div>
-    </div>
+      </footer>
+    </main>
   );
 };
 
